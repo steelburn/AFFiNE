@@ -12,7 +12,7 @@ export class TableHotkeysController implements ReactiveController {
     return this.logic.selectionController;
   }
 
-  constructor(private readonly logic: VirtualTableViewUILogic) {}
+  constructor(private readonly logic: VirtualTableViewUILogic) { }
 
   get host() {
     return this.logic.ui$.value;
@@ -30,6 +30,7 @@ export class TableHotkeysController implements ReactiveController {
             const rows = TableViewRowSelection.rowsIds(selection);
             this.selectionController.selection = undefined;
             this.logic.view.rowsDelete(rows);
+            this.logic.ui$.value?.requestUpdate();
             return;
           }
           const {

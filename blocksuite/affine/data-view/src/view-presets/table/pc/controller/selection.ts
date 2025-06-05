@@ -351,6 +351,8 @@ export class TableSelectionController implements ReactiveController {
   deleteRow(rowId: string) {
     this.view.rowsDelete([rowId]);
     this.focusToCell('up');
+    this.logic.ui$.value?.requestUpdate();
+
   }
 
   focusFirstCell() {
@@ -455,8 +457,8 @@ export class TableSelectionController implements ReactiveController {
     const container =
       groupKey != null
         ? this.tableContainer?.querySelector(
-            `affine-data-view-table-group[data-group-key="${groupKey}"]`
-          )
+          `affine-data-view-table-group[data-group-key="${groupKey}"]`
+        )
         : this.tableContainer;
     return container ?? null;
   }
@@ -470,12 +472,12 @@ export class TableSelectionController implements ReactiveController {
   ):
     | undefined
     | {
-        top: number;
-        left: number;
-        width: number;
-        height: number;
-        scale: number;
-      } {
+      top: number;
+      left: number;
+      width: number;
+      height: number;
+      scale: number;
+    } {
     const rows = this.rows(groupKey);
     const topRow = rows?.item(top);
     const bottomRow = rows?.item(bottom);
@@ -608,8 +610,8 @@ export class TableSelectionController implements ReactiveController {
     const container =
       groupKey != null
         ? this.tableContainer?.querySelector(
-            `affine-data-view-table-group[data-group-key="${groupKey}"]`
-          )
+          `affine-data-view-table-group[data-group-key="${groupKey}"]`
+        )
         : this.tableContainer;
     return container?.querySelectorAll('data-view-table-row');
   }
@@ -645,10 +647,10 @@ export class TableSelectionController implements ReactiveController {
 
   rowsToArea(rows: string[]):
     | {
-        start: number;
-        end: number;
-        groupKey?: string;
-      }
+      start: number;
+      end: number;
+      groupKey?: string;
+    }
     | undefined {
     let groupKey: string | undefined = undefined;
     let minIndex: number | undefined = undefined;
@@ -844,9 +846,9 @@ export class TableSelectionController implements ReactiveController {
     };
     const drag = startDrag<
       | {
-          row: MultiSelection;
-          column: MultiSelection;
-        }
+        row: MultiSelection;
+        column: MultiSelection;
+      }
       | undefined,
       {
         x: number;
