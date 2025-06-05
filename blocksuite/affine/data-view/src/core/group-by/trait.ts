@@ -112,9 +112,13 @@ export class GroupTrait {
       return;
     }
     const { staticMap, groupInfo } = staticInfo;
-    const groupMap: Record<string, Group> = { ...staticMap };
+    const groupMap: Record<string, Group> = {};
+    Object.entries(staticMap).forEach(([key, group]) => {
+      groupMap[key] = new Group(key, group.value, groupInfo, this);
+    });
     this.view.rows$.value.forEach(row => {
-      const value = this.view.cellGetOrCreate(row.rowId, groupInfo.property.id)
+      const value = this.view
+        .cellGetOrCreate(row.rowId, groupInfo.property.id)
         .jsonValue$.value;
       const keys = groupInfo.config.valuesGroup(value, groupInfo.tType);
       keys.forEach(({ key, value }) => {
