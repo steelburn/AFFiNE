@@ -78,8 +78,7 @@ export interface SingleView {
 
 export abstract class SingleViewBase<
   ViewData extends DataViewDataType = DataViewDataType,
-> implements SingleView
-{
+> implements SingleView {
   private readonly searchString = signal('');
 
   private readonly traitMap = new Map<symbol, unknown>();
@@ -128,6 +127,7 @@ export abstract class SingleViewBase<
   );
 
   rowsDelete(rows: string[]): void {
+    this.lockRows(false);
     this.dataSource.rowDelete(rows);
   }
 
@@ -181,7 +181,7 @@ export abstract class SingleViewBase<
   constructor(
     public manager: ViewManager,
     public id: string
-  ) {}
+  ) { }
 
   private searchRowsMapping(rows: Row[], searchString: string): Row[] {
     return rows.filter(row => {
@@ -258,6 +258,7 @@ export abstract class SingleViewBase<
   abstract propertyGetOrCreate(propertyId: string): Property;
 
   rowAdd(insertPosition: InsertToPosition | number): string {
+    this.lockRows(false);
     return this.dataSource.rowAdd(insertPosition);
   }
 

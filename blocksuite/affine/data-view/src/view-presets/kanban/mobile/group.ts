@@ -61,10 +61,12 @@ export class MobileKanbanGroup extends SignalWatcher(
 
   private readonly clickAddCard = () => {
     this.view.addCard('end', this.group.key);
+    this.requestUpdate();
   };
 
   private readonly clickAddCardInStart = () => {
     this.view.addCard('start', this.group.key);
+    this.requestUpdate();
   };
 
   private readonly clickGroupOptions = (e: MouseEvent) => {
@@ -79,12 +81,14 @@ export class MobileKanbanGroup extends SignalWatcher(
               this.group.rows.forEach(row => {
                 this.group.manager.removeFromGroup(row.rowId, this.group.key);
               });
+              this.requestUpdate();
             },
           }),
           menu.action({
             name: 'Delete Cards',
             select: () => {
               this.view.rowsDelete(this.group.rows.map(row => row.rowId));
+              this.requestUpdate();
             },
           }),
         ],
@@ -97,17 +101,17 @@ export class MobileKanbanGroup extends SignalWatcher(
     return html`
       <div class="mobile-group-header" ${dragHandler(this.group.key)}>
         ${GroupTitle(this.group, {
-          readonly: this.view.readonly$.value,
-          clickAdd: this.clickAddCardInStart,
-          clickOps: this.clickGroupOptions,
-        })}
+      readonly: this.view.readonly$.value,
+      clickAdd: this.clickAddCardInStart,
+      clickOps: this.clickGroupOptions,
+    })}
       </div>
       <div class="mobile-group-body">
         ${repeat(
-          cards,
-          row => row.rowId,
-          row => {
-            return html`
+      cards,
+      row => row.rowId,
+      row => {
+        return html`
               <mobile-kanban-card
                 data-card-id="${row.rowId}"
                 .groupKey="${this.group.key}"
@@ -115,11 +119,11 @@ export class MobileKanbanGroup extends SignalWatcher(
                 .kanbanViewLogic="${this.kanbanViewLogic}"
               ></mobile-kanban-card>
             `;
-          }
-        )}
+      }
+    )}
         ${this.view.readonly$.value
-          ? nothing
-          : html` <div class="mobile-add-card" @click="${this.clickAddCard}">
+        ? nothing
+        : html` <div class="mobile-add-card" @click="${this.clickAddCard}">
               <div
                 style="margin-right: 4px;width: 16px;height: 16px;display:flex;align-items:center;"
               >
