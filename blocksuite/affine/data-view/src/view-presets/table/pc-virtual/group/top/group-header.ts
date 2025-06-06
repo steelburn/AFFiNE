@@ -112,11 +112,11 @@ export class TableGroupHeader extends SignalWatcher(
         style="position: sticky;left: 0;width: max-content;padding: 6px 0;margin-bottom: 4px;display:flex;align-items:center;gap: 12px;max-width: 400px"
       >
         ${GroupTitle(group, {
-      groupHover: this.gridGroup.data.headerHover$.value,
-      readonly: this.tableViewManager.readonly$.value,
-      clickAdd: this.clickAddRowInStart,
-      clickOps: this.clickGroupOptions,
-    })}
+          groupHover: this.gridGroup.data.headerHover$.value,
+          readonly: this.tableViewManager.readonly$.value,
+          clickAdd: this.clickAddRowInStart,
+          clickOps: this.clickGroupOptions,
+        })}
       </div>
     `;
   };

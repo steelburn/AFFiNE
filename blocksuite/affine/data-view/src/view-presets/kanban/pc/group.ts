@@ -159,17 +159,17 @@ export class KanbanGroup extends SignalWatcher(
     return html`
       <div class="group-header" ${dragHandler(this.group.key)}>
         ${GroupTitle(this.group, {
-      readonly: this.view.readonly$.value,
-      clickAdd: this.clickAddCardInStart,
-      clickOps: this.clickGroupOptions,
-    })}
+          readonly: this.view.readonly$.value,
+          clickAdd: this.clickAddCardInStart,
+          clickOps: this.clickGroupOptions,
+        })}
       </div>
       <div class="group-body">
         ${repeat(
-      cards,
-      row => row.rowId,
-      row => {
-        return html`
+          cards,
+          row => row.rowId,
+          row => {
+            return html`
               <affine-data-view-kanban-card
                 data-card-id="${row.rowId}"
                 .groupKey="${this.group.key}"
@@ -177,11 +177,11 @@ export class KanbanGroup extends SignalWatcher(
                 .cardId="${row.rowId}"
               ></affine-data-view-kanban-card>
             `;
-      }
-    )}
+          }
+        )}
         ${this.view.readonly$.value
-        ? nothing
-        : html`<div class="add-card" @click="${this.clickAddCard}">
+          ? nothing
+          : html`<div class="add-card" @click="${this.clickAddCard}">
               <div
                 style="margin-right: 4px;width: 16px;height: 16px;display:flex;align-items:center;"
               >

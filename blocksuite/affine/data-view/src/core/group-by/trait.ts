@@ -37,7 +37,7 @@ export class Group<
     public readonly value: JsonValue,
     private readonly groupInfo: GroupInfo<RawValue, JsonValue, Data>,
     public readonly manager: GroupTrait
-  ) { }
+  ) {}
 
   get property() {
     return this.groupInfo.property;
@@ -117,8 +117,7 @@ export class GroupTrait {
       groupMap[key] = new Group(key, group.value, groupInfo, this);
     });
     this.view.rows$.value.forEach(row => {
-      const value = this.view
-        .cellGetOrCreate(row.rowId, groupInfo.property.id)
+      const value = this.view.cellGetOrCreate(row.rowId, groupInfo.property.id)
         .jsonValue$.value;
       const keys = groupInfo.config.valuesGroup(value, groupInfo.tType);
       keys.forEach(({ key, value }) => {
@@ -183,7 +182,7 @@ export class GroupTrait {
         keys: string[]
       ) => void;
     }
-  ) { }
+  ) {}
 
   addToGroup(rowId: string, key: string) {
     this.view.lockRows(false);

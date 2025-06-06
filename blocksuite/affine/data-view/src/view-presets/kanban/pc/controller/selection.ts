@@ -36,9 +36,9 @@ export class KanbanSelectionController implements ReactiveController {
       : [...cards, { cardId: closestCardId, groupKey: closestGroupKey }];
     this.selection = atLeastOne(newCards)
       ? {
-        selectionType: 'card',
-        cards: newCards,
-      }
+          selectionType: 'card',
+          cards: newCards,
+        }
       : undefined;
   };
 
@@ -86,7 +86,7 @@ export class KanbanSelectionController implements ReactiveController {
     return this.logic.ui$.value;
   }
 
-  constructor(public logic: KanbanViewUILogic) { }
+  constructor(public logic: KanbanViewUILogic) {}
 
   blur(selection: KanbanViewSelection) {
     const host = this.host;
@@ -261,9 +261,9 @@ export class KanbanSelectionController implements ReactiveController {
         const newCards = cards ?? selection.cards;
         this.selection = atLeastOne(newCards)
           ? {
-            ...selection,
-            cards: newCards,
-          }
+              ...selection,
+              cards: newCards,
+            }
           : undefined;
       }
     }
@@ -310,9 +310,9 @@ export class KanbanSelectionController implements ReactiveController {
     nextPosition: 'up' | 'down' | 'left' | 'right'
   ):
     | {
-      card: KanbanCard;
-      cards: KanbanCardSelectionCard[];
-    }
+        card: KanbanCard;
+        cards: KanbanCardSelectionCard[];
+      }
     | undefined {
     const host = this.host;
     if (!host) {
@@ -390,10 +390,10 @@ export class KanbanSelectionController implements ReactiveController {
     nextPosition: 'up' | 'down' | 'left' | 'right'
   ):
     | {
-      cell: KanbanCell;
-      cardId?: string;
-      groupKey?: string;
-    }
+        cell: KanbanCell;
+        cardId?: string;
+        groupKey?: string;
+      }
     | undefined {
     const host = this.host;
     if (!host) {
@@ -583,9 +583,9 @@ export class KanbanSelectionController implements ReactiveController {
       }));
       this.selection = atLeastOne(newCards)
         ? {
-          ...selection,
-          cards: newCards,
-        }
+            ...selection,
+            cards: newCards,
+          }
         : undefined;
     });
   }
@@ -709,9 +709,9 @@ function getNextCardFocusCell(
   getNextCardIndex: (cardIndex: number) => number
 ):
   | {
-    cell: KanbanCell;
-    cardId: string;
-  }
+      cell: KanbanCell;
+      cardId: string;
+    }
   | undefined {
   const cardIndex = cards.findIndex(card => card.cardId === selection.cardId);
   const nextCardIndex = getNextCardIndex(cardIndex);
@@ -791,8 +791,8 @@ function getFocusCell(viewElement: Element, selection: KanbanCellSelection) {
 function getYOffset(srcRect: DOMRect, targetRect: DOMRect) {
   return Math.abs(
     srcRect.top +
-    (srcRect.bottom - srcRect.top) / 2 -
-    (targetRect.top + (targetRect.bottom - targetRect.top) / 2)
+      (srcRect.bottom - srcRect.top) / 2 -
+      (targetRect.top + (targetRect.bottom - targetRect.top) / 2)
   );
 }
 

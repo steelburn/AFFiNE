@@ -142,10 +142,10 @@ export class TableGroup extends SignalWatcher(
         style="position: sticky;left: 0;width: max-content;padding: 6px 0;margin-bottom: 4px;display:flex;align-items:center;gap: 12px;max-width: 400px"
       >
         ${GroupTitle(this.group, {
-      readonly: this.view.readonly$.value,
-      clickAdd: this.clickAddRowInStart,
-      clickOps: this.clickGroupOptions,
-    })}
+          readonly: this.view.readonly$.value,
+          clickAdd: this.clickAddRowInStart,
+          clickOps: this.clickGroupOptions,
+        })}
       </div>
     `;
   };
@@ -249,18 +249,18 @@ export class TableGroup extends SignalWatcher(
       ></affine-database-column-header>
       <div class="affine-database-block-rows">
         ${repeat(
-      rows,
-      row => row.rowId,
-      (row, idx) => {
-        return html` <data-view-table-row
+          rows,
+          row => row.rowId,
+          (row, idx) => {
+            return html` <data-view-table-row
               data-row-index="${idx}"
               data-row-id="${row.rowId}"
               .tableViewLogic="${this.tableViewLogic}"
               .rowId="${row.rowId}"
               .rowIndex="${idx}"
             ></data-view-table-row>`;
-      }
-    )}
+          }
+        )}
       </div>
       ${this.view.readonly$.value
         ? null

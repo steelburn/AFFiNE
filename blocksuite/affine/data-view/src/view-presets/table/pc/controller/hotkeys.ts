@@ -10,7 +10,7 @@ export class TableHotkeysController implements ReactiveController {
     return this.logic.selectionController;
   }
 
-  constructor(private readonly logic: TableViewUILogic) { }
+  constructor(private readonly logic: TableViewUILogic) {}
 
   get host() {
     return this.logic.ui$.value;

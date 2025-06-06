@@ -172,13 +172,13 @@ export class KanbanViewUI extends DataViewUIBase<KanbanViewUILogic> {
           activeId,
           activeIndex > overIndex
             ? {
-              before: true,
-              id: over.id,
-            }
+                before: true,
+                id: over.id,
+              }
             : {
-              before: false,
-              id: over.id,
-            }
+                before: false,
+                id: over.id,
+              }
         );
       }
     },
@@ -243,8 +243,8 @@ export class KanbanViewUI extends DataViewUIBase<KanbanViewUILogic> {
 
     return html`
       ${renderUniLit(this.logic.root.config.headerWidget, {
-      dataViewLogic: this.logic,
-    })}
+        dataViewLogic: this.logic,
+      })}
       <div
         ${ref(this.logic.scrollContainer$)}
         class="${kanbanGroupsStyle}"
