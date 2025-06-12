@@ -91,6 +91,7 @@ export class FilterBar extends SignalWatcher(ShadowlessElement) {
     const element = popupTargetFromElement(e.target as HTMLElement);
     popCreateFilter(element, {
       vars: this.vars,
+      dataSource: this.dataSource,
       onSelect: filter => {
         const index = this.filterGroup.value.conditions.length;
         this.onChange({
@@ -211,6 +212,9 @@ export class FilterBar extends SignalWatcher(ShadowlessElement) {
 
   @property({ attribute: false })
   accessor dataViewLogic!: DataViewUILogicBase;
+
+  @property({ attribute: false })
+  accessor dataSource!: any;
 }
 
 declare global {

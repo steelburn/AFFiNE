@@ -209,6 +209,8 @@ export const selectGroupByProperty = (
               prefix: html` <uni-lit .uni="${property.icon}"></uni-lit>`,
               select: () => {
                 group.changeGroup(property.id);
+                // TODO: Track CreateDatabaseGroup event here
+                // The eventTrace should be passed from the calling component
                 ops?.onSelect?.(property.id);
               },
             });

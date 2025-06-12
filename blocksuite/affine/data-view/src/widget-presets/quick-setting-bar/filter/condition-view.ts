@@ -17,9 +17,10 @@ import { computed, type ReadonlySignal } from '@preact/signals-core';
 import { css, html } from 'lit';
 import { property } from 'lit/decorators.js';
 
+import type { DataSource } from '../../../core/data-source/base.js';
 import { getRefType } from '../../../core/expression/ref/ref.js';
 import type { Variable } from '../../../core/expression/types.js';
-import { filterMatcher } from '../../../core/filter/filter-fn/matcher.js';
+import { getFilterService } from '../../../core/filter/dynamic/service.js';
 import { literalItemsMatcher } from '../../../core/filter/literal/index.js';
 import type { Filter, SingleFilter } from '../../../core/filter/types.js';
 import {
@@ -160,11 +161,16 @@ export class FilterConditionView extends SignalWatcher(ShadowlessElement) {
   });
 
   fnConfig$ = computed(() => {
-    return filterMatcher.getFilterByName(this.filter$.value?.function);
+    return getFilterService(this.dataSource).matcher.find(
+      v => v.name === this.filter$.value?.function
+    );
   });
 
   @property({ attribute: false })
   accessor vars!: ReadonlySignal<Variable[]>;
+
+  @property({ attribute: false })
+  accessor dataSource!: DataSource;
 
   fnType$ = computed(() => {
     const fnConfig = this.fnConfig$.value;
@@ -198,7 +204,8 @@ export class FilterConditionView extends SignalWatcher(ShadowlessElement) {
     if (!type) {
       return [];
     }
-    return filterMatcher.filterListBySelfType(type).map(v => {
+    const matcher = getFilterService(this.dataSource).matcher;
+    return matcher.allMatched(type).map(v => {
       const selected = v.name === filter.function;
       return menu.action({
         name: v.label,

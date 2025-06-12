@@ -1,6 +1,9 @@
 import type { Value, VariableRef } from '../expression/types.js';
-import { filterMatcher } from './filter-fn/matcher.js';
+import type { Matcher_ } from '../logical/matcher.js';
+import type { FilterConfig } from './filter-fn/create.js';
 import type { Filter } from './types.js';
+
+type MatcherType = Matcher_<FilterConfig, any>; // generic matcher
 
 const evalRef = (ref: VariableRef, row: Record<string, unknown>): unknown => {
   return row[ref.name];
@@ -9,14 +12,16 @@ const evalRef = (ref: VariableRef, row: Record<string, unknown>): unknown => {
 const evalValue = (value?: Value): unknown => {
   return value?.value;
 };
+
 export const evalFilter = (
   filterGroup: Filter,
-  row: Record<string, unknown>
+  row: Record<string, unknown>,
+  matcher: MatcherType
 ): boolean => {
   const evalF = (filter: Filter): boolean => {
     if (filter.type === 'filter') {
       const value = evalRef(filter.left, row);
-      const func = filterMatcher.getFilterByName(filter.function);
+      const func = matcher.find(v => v.name === filter.function);
       if (!func) {
         return true;
       }

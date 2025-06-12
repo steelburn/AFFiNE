@@ -69,6 +69,7 @@ export class DataViewHeaderToolsFilter extends WidgetBase {
       popupTargetFromElement(event.currentTarget as HTMLElement),
       {
         vars: this.view.vars$,
+        dataSource: this.view.manager.dataSource,
         onSelect: filter => {
           this._filter = {
             ...this._filter,

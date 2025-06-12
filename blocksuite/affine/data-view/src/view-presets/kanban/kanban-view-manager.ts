@@ -4,6 +4,7 @@ import {
 } from '@blocksuite/affine-shared/utils';
 import { computed } from '@preact/signals-core';
 
+import { getFilterService } from '../../core/filter/dynamic/service.js';
 import { evalFilter } from '../../core/filter/eval.js';
 import { generateDefaultValues } from '../../core/filter/generate-default-values.js';
 import { FilterTrait, filterTraitKey } from '../../core/filter/trait.js';
@@ -180,7 +181,11 @@ export class KanbanSingleView extends SingleViewBase<KanbanViewData> {
 
     const filter = this.filter$.value;
     if (filter.conditions.length > 0) {
-      const defaultValues = generateDefaultValues(filter, this.vars$.value);
+      const defaultValues = generateDefaultValues(
+        filter,
+        this.vars$.value,
+        getFilterService(this.dataSource).matcher
+      );
       Object.entries(defaultValues).forEach(([propertyId, jsonValue]) => {
         const property = this.propertyGetOrCreate(propertyId);
         const propertyMeta = property.meta$.value;
@@ -251,7 +256,11 @@ export class KanbanSingleView extends SingleViewBase<KanbanViewData> {
           column.cellGetOrCreate(rowId).jsonValue$.value,
         ])
       );
-      return evalFilter(this.filter$.value, rowMap);
+      return evalFilter(
+        this.filter$.value,
+        rowMap,
+        getFilterService(this.dataSource).matcher
+      );
     }
     return true;
   }

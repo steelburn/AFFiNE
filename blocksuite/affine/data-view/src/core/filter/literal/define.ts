@@ -151,4 +151,5 @@ export const allLiteralConfig: LiteralItemsConfig[] = [
       ];
     },
   }),
+  // user literal configs will be registered externally in AFFiNE frontend
 ];

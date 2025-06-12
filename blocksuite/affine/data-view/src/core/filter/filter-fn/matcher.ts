@@ -11,7 +11,7 @@ import { stringFilter } from './string.js';
 import { tagFilter } from './tag.js';
 import { unknownFilter } from './unknown.js';
 
-const allFilter = [
+export const allInternalFilter = [
   ...dateFilter,
   ...multiTagFilter,
   ...numberFilter,
@@ -45,17 +45,17 @@ const getPredicate = (selfType: TypeInstance) => (filter: FilterConfig) => {
   return firstArg && typeSystem.unify(selfType, firstArg);
 };
 
-export const filterMatcher = {
+export const internalFilterMatcher = {
   filterListBySelfType: (selfType: TypeInstance) => {
-    return allFilter.filter(getPredicate(selfType));
+    return allInternalFilter.filter(getPredicate(selfType));
   },
   firstMatchedBySelfType: (selfType: TypeInstance) => {
-    return allFilter.find(getPredicate(selfType));
+    return allInternalFilter.find(getPredicate(selfType));
   },
   getFilterByName: (name?: string) => {
     if (!name) {
       return;
     }
-    return allFilter.find(v => v.name === name);
+    return allInternalFilter.find(v => v.name === name);
   },
 };

@@ -7,6 +7,7 @@ import { AddCursorIcon } from '@blocksuite/icons/lit';
 import type { Middleware } from '@floating-ui/dom';
 import type { ReadonlySignal } from '@preact/signals-core';
 
+import type { DataSource } from '../data-source/base.js';
 import type { Variable } from '../expression/index.js';
 import { renderUniLit } from '../utils/index.js';
 import type { Filter } from './types.js';
@@ -16,6 +17,7 @@ export const popCreateFilter = (
   target: PopupTarget,
   props: {
     vars: ReadonlySignal<Variable[]>;
+    dataSource: DataSource;
     onSelect: (filter: Filter) => void;
     onClose?: () => void;
     onBack?: () => void;
@@ -40,10 +42,14 @@ export const popCreateFilter = (
               prefix: renderUniLit(v.icon, {}),
               select: () => {
                 props.onSelect(
-                  firstFilterByRef(props.vars.value, {
-                    type: 'ref',
-                    name: v.id,
-                  })
+                  firstFilterByRef(
+                    props.vars.value,
+                    {
+                      type: 'ref',
+                      name: v.id,
+                    },
+                    props.dataSource
+                  )
                 );
               },
             })
@@ -56,7 +62,9 @@ export const popCreateFilter = (
               name: 'Add filter group',
               prefix: AddCursorIcon(),
               select: () => {
-                props.onSelect(firstFilterInGroup(props.vars.value));
+                props.onSelect(
+                  firstFilterInGroup(props.vars.value, props.dataSource)
+                );
               },
             }),
           ],

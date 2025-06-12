@@ -136,6 +136,7 @@ const createSettingMenus = (
           if (!filterTrait.filter$.value.conditions.length) {
             popCreateFilter(target, {
               vars: view.vars$,
+              dataSource: view.manager.dataSource,
               onBack: reopen,
               onSelect: filter => {
                 filterTrait.filterSet({
@@ -214,7 +215,15 @@ const createSettingMenus = (
           const groupBy = groupTrait.property$.value;
           if (!groupBy) {
             popSelectGroupByProperty(target, groupTrait, {
-              onSelect: () => popGroupSetting(target, groupTrait, reopen),
+              onSelect: (id?: string) => {
+                if (id) {
+                  const column = groupTrait.view.propertyGetOrCreate(id);
+                  dataViewLogic.eventTrace('CreateDatabaseGroup', {
+                    groupBy: column.type$.value || id,
+                  });
+                }
+                popGroupSetting(target, groupTrait, reopen);
+              },
               onBack: reopen,
             });
           } else {

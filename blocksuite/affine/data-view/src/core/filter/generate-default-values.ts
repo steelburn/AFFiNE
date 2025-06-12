@@ -1,15 +1,19 @@
 import type { Variable } from '../expression/index.js';
+import type { Matcher_ } from '../logical/matcher.js';
 import type { DVJSON } from '../property/types.js';
-import { filterMatcher } from './filter-fn/matcher.js';
+import type { FilterConfig } from './filter-fn/create.js';
 import type { FilterGroup, SingleFilter } from './types.js';
 
 /**
  * Generate default values for a new row based on current filter conditions.
  * If a property has multiple conditions, no value will be set to avoid conflicts.
  */
+type MatcherType = Matcher_<FilterConfig, any>;
+
 export function generateDefaultValues(
   filter: FilterGroup,
-  _vars: Variable[]
+  _vars: Variable[],
+  matcher: MatcherType
 ): Record<string, DVJSON> {
   const defaultValues: Record<string, DVJSON> = {};
   const propertyConditions = new Map<string, SingleFilter[]>();
@@ -29,7 +33,7 @@ export function generateDefaultValues(
     if (conditions.length === 1) {
       const condition = conditions[0];
       if (!condition) continue;
-      const filterConfig = filterMatcher.getFilterByName(condition.function);
+      const filterConfig = matcher.find(v => v.name === condition.function);
       if (filterConfig?.defaultValue) {
         const argValues = condition.args.map(arg => arg.value);
         const defaultValue = filterConfig.defaultValue(argValues);

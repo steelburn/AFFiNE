@@ -413,6 +413,7 @@ export const popFilterRoot = (
                   popupTargetFromElement(ele),
                   {
                     vars: view.vars$,
+                    dataSource: view.manager.dataSource,
                     onSelect: filter => {
                       filterTrait.filterSet({
                         ...value,
