@@ -323,11 +323,14 @@ export interface CopilotHistories {
   /** An mark identifying which view to use to display the session */
   action: Maybe<Scalars['String']['output']>;
   createdAt: Scalars['DateTime']['output'];
+  docId: Maybe<Scalars['String']['output']>;
   messages: Array<ChatMessage>;
   pinned: Scalars['Boolean']['output'];
   sessionId: Scalars['String']['output'];
   /** The number of tokens used in the session */
   tokens: Scalars['Int']['output'];
+  updatedAt: Scalars['DateTime']['output'];
+  workspaceId: Scalars['String']['output'];
 }
 
 export interface CopilotInvalidContextDataType {
@@ -338,22 +341,6 @@ export interface CopilotInvalidContextDataType {
 export interface CopilotMessageNotFoundDataType {
   __typename?: 'CopilotMessageNotFoundDataType';
   messageId: Scalars['String']['output'];
-}
-
-export enum CopilotModels {
-  DallE3 = 'DallE3',
-  Gpt4Omni = 'Gpt4Omni',
-  Gpt4Omni0806 = 'Gpt4Omni0806',
-  Gpt4OmniMini = 'Gpt4OmniMini',
-  Gpt4OmniMini0718 = 'Gpt4OmniMini0718',
-  Gpt41 = 'Gpt41',
-  Gpt41Mini = 'Gpt41Mini',
-  Gpt41Nano = 'Gpt41Nano',
-  Gpt410414 = 'Gpt410414',
-  GptImage = 'GptImage',
-  TextEmbedding3Large = 'TextEmbedding3Large',
-  TextEmbedding3Small = 'TextEmbedding3Small',
-  TextEmbeddingAda002 = 'TextEmbeddingAda002',
 }
 
 export interface CopilotPromptConfigInput {
@@ -515,7 +502,7 @@ export interface CreateCopilotPromptInput {
   action?: InputMaybe<Scalars['String']['input']>;
   config?: InputMaybe<CopilotPromptConfigInput>;
   messages: Array<CopilotPromptMessageInput>;
-  model: CopilotModels;
+  model: Scalars['String']['input'];
   name: Scalars['String']['input'];
 }
 
@@ -721,6 +708,7 @@ export enum ErrorNames {
   CAN_NOT_BATCH_GRANT_DOC_OWNER_PERMISSIONS = 'CAN_NOT_BATCH_GRANT_DOC_OWNER_PERMISSIONS',
   CAN_NOT_REVOKE_YOURSELF = 'CAN_NOT_REVOKE_YOURSELF',
   CAPTCHA_VERIFICATION_FAILED = 'CAPTCHA_VERIFICATION_FAILED',
+  COMMENT_NOT_FOUND = 'COMMENT_NOT_FOUND',
   COPILOT_ACTION_TAKEN = 'COPILOT_ACTION_TAKEN',
   COPILOT_CONTEXT_FILE_NOT_SUPPORTED = 'COPILOT_CONTEXT_FILE_NOT_SUPPORTED',
   COPILOT_DOCS_NOT_FOUND = 'COPILOT_DOCS_NOT_FOUND',
@@ -810,6 +798,7 @@ export enum ErrorNames {
   OWNER_CAN_NOT_LEAVE_WORKSPACE = 'OWNER_CAN_NOT_LEAVE_WORKSPACE',
   PASSWORD_REQUIRED = 'PASSWORD_REQUIRED',
   QUERY_TOO_LONG = 'QUERY_TOO_LONG',
+  REPLY_NOT_FOUND = 'REPLY_NOT_FOUND',
   RUNTIME_CONFIG_NOT_FOUND = 'RUNTIME_CONFIG_NOT_FOUND',
   SAME_EMAIL_PROVIDED = 'SAME_EMAIL_PROVIDED',
   SAME_SUBSCRIPTION_RECURRING = 'SAME_SUBSCRIPTION_RECURRING',
@@ -3575,6 +3564,41 @@ export type ForkCopilotSessionMutation = {
   forkCopilotSession: string;
 };
 
+export type GetCopilotLatestDocSessionQueryVariables = Exact<{
+  workspaceId: Scalars['String']['input'];
+  docId: Scalars['String']['input'];
+}>;
+
+export type GetCopilotLatestDocSessionQuery = {
+  __typename?: 'Query';
+  currentUser: {
+    __typename?: 'UserType';
+    copilot: {
+      __typename?: 'Copilot';
+      histories: Array<{
+        __typename?: 'CopilotHistories';
+        sessionId: string;
+        workspaceId: string;
+        docId: string | null;
+        pinned: boolean;
+        action: string | null;
+        tokens: number;
+        createdAt: string;
+        updatedAt: string;
+        messages: Array<{
+          __typename?: 'ChatMessage';
+          id: string | null;
+          role: string;
+          content: string;
+          attachments: Array<string> | null;
+          params: Record<string, string> | null;
+          createdAt: string;
+        }>;
+      }>;
+    };
+  } | null;
+};
+
 export type GetCopilotSessionQueryVariables = Exact<{
   workspaceId: Scalars['String']['input'];
   sessionId: Scalars['String']['input'];
@@ -3596,6 +3620,32 @@ export type GetCopilotSessionQuery = {
         model: string;
         optionalModels: Array<string>;
       };
+    };
+  } | null;
+};
+
+export type GetCopilotRecentSessionsQueryVariables = Exact<{
+  workspaceId: Scalars['String']['input'];
+  limit?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+export type GetCopilotRecentSessionsQuery = {
+  __typename?: 'Query';
+  currentUser: {
+    __typename?: 'UserType';
+    copilot: {
+      __typename?: 'Copilot';
+      histories: Array<{
+        __typename?: 'CopilotHistories';
+        sessionId: string;
+        workspaceId: string;
+        docId: string | null;
+        pinned: boolean;
+        action: string | null;
+        tokens: number;
+        createdAt: string;
+        updatedAt: string;
+      }>;
     };
   } | null;
 };
@@ -5210,9 +5260,19 @@ export type Queries =
       response: CopilotQuotaQuery;
     }
   | {
+      name: 'getCopilotLatestDocSessionQuery';
+      variables: GetCopilotLatestDocSessionQueryVariables;
+      response: GetCopilotLatestDocSessionQuery;
+    }
+  | {
       name: 'getCopilotSessionQuery';
       variables: GetCopilotSessionQueryVariables;
       response: GetCopilotSessionQuery;
+    }
+  | {
+      name: 'getCopilotRecentSessionsQuery';
+      variables: GetCopilotRecentSessionsQueryVariables;
+      response: GetCopilotRecentSessionsQuery;
     }
   | {
       name: 'getCopilotSessionsQuery';

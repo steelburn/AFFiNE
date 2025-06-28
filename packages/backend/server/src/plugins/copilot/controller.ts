@@ -249,6 +249,7 @@ export class CopilotController implements BeforeApplicationShutdown {
         ...session.config.promptConfig,
         signal: getSignal(req).signal,
         user: user.id,
+        session: session.config.sessionId,
         workspace: session.config.workspaceId,
         reasoning,
         webSearch,
@@ -305,6 +306,7 @@ export class CopilotController implements BeforeApplicationShutdown {
           ...session.config.promptConfig,
           signal,
           user: user.id,
+          session: session.config.sessionId,
           workspace: session.config.workspaceId,
           reasoning,
           webSearch,
@@ -389,6 +391,7 @@ export class CopilotController implements BeforeApplicationShutdown {
           ...session.config.promptConfig,
           signal,
           user: user.id,
+          session: session.config.sessionId,
           workspace: session.config.workspaceId,
           reasoning,
           webSearch,
@@ -479,6 +482,7 @@ export class CopilotController implements BeforeApplicationShutdown {
           ...session.config.promptConfig,
           signal,
           user: user.id,
+          session: session.config.sessionId,
           workspace: session.config.workspaceId,
         })
       ).pipe(
@@ -615,6 +619,7 @@ export class CopilotController implements BeforeApplicationShutdown {
             seed: this.parseNumber(params.seed),
             signal,
             user: user.id,
+            session: session.config.sessionId,
             workspace: session.config.workspaceId,
           }
         )

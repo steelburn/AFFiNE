@@ -26,7 +26,7 @@ export const AFFINE_FLAGS = {
     configurable: false,
     defaultState: true,
   },
-  enable_ai_model_switch: {
+  enable_ai_playground: {
     category: 'affine',
     displayName:
       'com.affine.settings.workspace.experimental-features.enable-ai-model-switch.name',
@@ -273,14 +273,6 @@ export const AFFINE_FLAGS = {
       'com.affine.settings.workspace.experimental-features.enable-adapter-panel.description',
     configurable: isCanaryBuild,
     defaultState: false,
-  },
-  enable_web_container: {
-    category: 'blocksuite',
-    bsFlag: 'enable_web_container',
-    displayName: 'Enable Web Container',
-    description: 'Enable web container for code block preview',
-    defaultState: false,
-    configurable: true,
   },
 } satisfies { [key in string]: FlagInfo };
 
