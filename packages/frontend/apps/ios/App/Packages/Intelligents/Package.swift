@@ -18,7 +18,7 @@ let package = Package(
     .package(url: "https://github.com/apple/swift-collections", from: "1.2.0"),
     .package(url: "https://github.com/devxoul/Then", from: "3.0.0"),
     .package(url: "https://github.com/SnapKit/SnapKit.git", from: "5.7.1"),
-    .package(url: "https://github.com/SwifterSwift/SwifterSwift.git", from: "6.0.0"),
+    .package(url: "https://github.com/SwifterSwift/SwifterSwift.git", from: "7.0.0"),
     .package(url: "https://github.com/loopwork-ai/eventsource.git", from: "1.1.1"),
   ],
   targets: [
