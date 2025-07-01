@@ -32,6 +32,7 @@ export const adminServerConfigQuery = {
     baseUrl
     name
     features
+    allowGuestDemoWorkspace
     type
     initialized
     credentialsRequirement {
@@ -798,6 +799,7 @@ export const getCopilotSessionQuery = {
         parentSessionId
         docId
         pinned
+        title
         promptName
         model
         optionalModels
@@ -847,6 +849,7 @@ export const getCopilotSessionsQuery = {
         parentSessionId
         docId
         pinned
+        title
         promptName
         model
         optionalModels
@@ -1822,6 +1825,7 @@ export const serverConfigQuery = {
     baseUrl
     name
     features
+    allowGuestDemoWorkspace
     type
     initialized
     credentialsRequirement {

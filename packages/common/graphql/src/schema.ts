@@ -419,6 +419,7 @@ export interface CopilotSessionType {
   parentSessionId: Maybe<Scalars['ID']['output']>;
   pinned: Scalars['Boolean']['output'];
   promptName: Scalars['String']['output'];
+  title: Maybe<Scalars['String']['output']>;
 }
 
 export interface CopilotWorkspaceConfig {
@@ -708,6 +709,7 @@ export enum ErrorNames {
   CAN_NOT_BATCH_GRANT_DOC_OWNER_PERMISSIONS = 'CAN_NOT_BATCH_GRANT_DOC_OWNER_PERMISSIONS',
   CAN_NOT_REVOKE_YOURSELF = 'CAN_NOT_REVOKE_YOURSELF',
   CAPTCHA_VERIFICATION_FAILED = 'CAPTCHA_VERIFICATION_FAILED',
+  COMMENT_ATTACHMENT_NOT_FOUND = 'COMMENT_ATTACHMENT_NOT_FOUND',
   COMMENT_NOT_FOUND = 'COMMENT_NOT_FOUND',
   COPILOT_ACTION_TAKEN = 'COPILOT_ACTION_TAKEN',
   COPILOT_CONTEXT_FILE_NOT_SUPPORTED = 'COPILOT_CONTEXT_FILE_NOT_SUPPORTED',
@@ -2149,6 +2151,8 @@ export enum SearchTable {
 
 export interface ServerConfigType {
   __typename?: 'ServerConfigType';
+  /** Whether allow guest users to create demo workspaces. */
+  allowGuestDemoWorkspace: Scalars['Boolean']['output'];
   /** fetch latest available upgradable release of server */
   availableUpgrade: Maybe<ReleaseVersionType>;
   /** Features for user that can be configured */
@@ -2743,6 +2747,7 @@ export type AdminServerConfigQuery = {
     baseUrl: string;
     name: string;
     features: Array<ServerFeature>;
+    allowGuestDemoWorkspace: boolean;
     type: ServerDeploymentType;
     initialized: boolean;
     availableUserFeatures: Array<FeatureType>;
@@ -3616,6 +3621,7 @@ export type GetCopilotSessionQuery = {
         parentSessionId: string | null;
         docId: string | null;
         pinned: boolean;
+        title: string | null;
         promptName: string;
         model: string;
         optionalModels: Array<string>;
@@ -3677,6 +3683,7 @@ export type GetCopilotSessionsQuery = {
         parentSessionId: string | null;
         docId: string | null;
         pinned: boolean;
+        title: string | null;
         promptName: string;
         model: string;
         optionalModels: Array<string>;
@@ -4828,6 +4835,7 @@ export type ServerConfigQuery = {
     baseUrl: string;
     name: string;
     features: Array<ServerFeature>;
+    allowGuestDemoWorkspace: boolean;
     type: ServerDeploymentType;
     initialized: boolean;
     credentialsRequirement: {
