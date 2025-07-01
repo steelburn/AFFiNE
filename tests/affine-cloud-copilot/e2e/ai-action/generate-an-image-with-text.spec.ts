@@ -76,6 +76,8 @@ test.describe('AIAction/GenerateAnImageWithText', () => {
         role: 'action',
       },
     ]);
+
+    await page.reload();
     const { answer: panelAnswer, actionName } =
       await utils.chatPanel.getLatestAIActionMessage(page);
     await expect(
