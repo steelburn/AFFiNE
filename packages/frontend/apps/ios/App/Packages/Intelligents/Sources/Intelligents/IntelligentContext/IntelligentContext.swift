@@ -42,8 +42,8 @@ public class IntelligentContext {
     case currentI18nLocale
   }
 
-  public private(set) var currentSession: ChatSessionObject?
-  public private(set) var currentWorkspaceId: String?
+  @Published public private(set) var currentSession: ChatSessionObject?
+  @Published public private(set) var currentWorkspaceId: String?
 
   public lazy var temporaryDirectory: URL = {
     let tempDir = FileManager.default.temporaryDirectory

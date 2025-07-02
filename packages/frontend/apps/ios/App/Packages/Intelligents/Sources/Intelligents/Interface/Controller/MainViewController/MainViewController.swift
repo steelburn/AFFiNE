@@ -10,9 +10,7 @@ class MainViewController: UIViewController {
     $0.delegate = self
   }
 
-  lazy var chatTableView = ChatTableView().then {
-    $0.delegate = self
-  }
+  lazy var listView = ChatListView()
 
   lazy var inputBox = InputBox().then {
     $0.delegate = self
@@ -54,7 +52,7 @@ class MainViewController: UIViewController {
 
   private func setupUI() {
     view.addSubview(headerView)
-    view.addSubview(chatTableView)
+    view.addSubview(listView)
     view.addSubview(inputBox)
     view.addSubview(documentPickerHideDetector)
     view.addSubview(documentPickerView)
@@ -64,7 +62,7 @@ class MainViewController: UIViewController {
       make.leading.trailing.equalToSuperview()
     }
 
-    chatTableView.snp.makeConstraints { make in
+    listView.snp.makeConstraints { make in
       make.top.equalTo(headerView.snp.bottom)
       make.left.right.equalToSuperview()
       make.bottom.equalToSuperview()
@@ -102,15 +100,5 @@ class MainViewController: UIViewController {
 
   @objc func terminateEditing() {
     view.endEditing(true)
-  }
-
-  // MARK: - Chat Methods
-}
-
-// MARK: - ChatTableViewDelegate
-
-extension MainViewController: ChatTableViewDelegate {
-  func chatTableView(_: ChatTableView, didSelectRowAt _: IndexPath) {
-    // Handle cell selection if needed
   }
 }

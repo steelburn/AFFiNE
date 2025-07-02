@@ -1,5 +1,5 @@
 //
-//  CellType.swift
+//  ChatCellType.swift
 //  Intelligents
 //
 //  Created by 秋星桥 on 6/26/25.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum CellType: String, Codable, CaseIterable {
+public enum ChatCellType: String, CaseIterable {
   case userMessage
   case assistantMessage
   case systemMessage

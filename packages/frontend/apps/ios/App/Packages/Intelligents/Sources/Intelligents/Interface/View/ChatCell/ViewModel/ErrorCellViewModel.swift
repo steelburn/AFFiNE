@@ -8,7 +8,7 @@
 import Foundation
 
 struct ErrorCellViewModel: ChatCellViewModel {
-  var cellType: CellType = .error
+  var cellType: ChatCellType = .error
   var id: UUID
   var errorMessage: String
 }

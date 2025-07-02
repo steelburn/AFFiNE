@@ -20,6 +20,9 @@ let package = Package(
     .package(url: "https://github.com/SnapKit/SnapKit.git", from: "5.7.1"),
     .package(url: "https://github.com/SwifterSwift/SwifterSwift.git", from: "6.0.0"),
     .package(url: "https://github.com/loopwork-ai/eventsource.git", from: "1.1.1"),
+
+    .package(url: "https://github.com/Lakr233/ListViewKit", from: "1.1.6"),
+    .package(url: "https://github.com/Lakr233/MarkdownView", from: "2.3.2"),
   ],
   targets: [
     .target(name: "Intelligents", dependencies: [
@@ -30,6 +33,9 @@ let package = Package(
       .product(name: "Apollo", package: "apollo-ios"),
       .product(name: "OrderedCollections", package: "swift-collections"),
       .product(name: "EventSource", package: "eventsource"),
+
+      "ListViewKit",
+      "MarkdownView",
     ], resources: [
       .process("Interface/View/InputBox/InputBox.xcassets"),
       .process("Interface/Controller/AttachmentManagementController/AttachmentIcon.xcassets"),
