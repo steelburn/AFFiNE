@@ -410,6 +410,10 @@ export function toError(error: unknown): Error {
   }
 }
 
+type DocEditFootnote = {
+  intent: string;
+  result: string;
+};
 export class TextStreamParser {
   private readonly logger = new Logger(TextStreamParser.name);
   private readonly CALLOUT_PREFIX = '\n[!]\n';
@@ -417,6 +421,8 @@ export class TextStreamParser {
   private lastType: ChunkType | undefined;
 
   private prefix: string | null = this.CALLOUT_PREFIX;
+
+  private readonly docEditFootnotes: DocEditFootnote[] = [];
 
   public parse(chunk: TextStreamPart<CustomAITools>) {
     let result = '';
@@ -457,6 +463,13 @@ export class TextStreamParser {
             result += `\nReading the doc "${chunk.args.doc_id}"\n`;
             break;
           }
+          case 'doc_edit': {
+            this.docEditFootnotes.push({
+              intent: chunk.args.instructions,
+              result: '',
+            });
+            break;
+          }
         }
         result = this.markAsCallout(result);
         break;
@@ -470,6 +483,10 @@ export class TextStreamParser {
           case 'doc_edit': {
             if (chunk.result && typeof chunk.result === 'object') {
               result += `\n${chunk.result.result}\n`;
+              this.docEditFootnotes[this.docEditFootnotes.length - 1].result =
+                chunk.result.result;
+            } else {
+              this.docEditFootnotes.pop();
             }
             break;
           }
@@ -502,6 +519,13 @@ export class TextStreamParser {
     }
     this.lastType = chunk.type;
     return result;
+  }
+
+  public end() {
+    const footnotes = this.docEditFootnotes.map((footnote, index) => {
+      return `[^edit${index + 1}]: ${JSON.stringify({ type: 'doc-edit', ...footnote })}`;
+    });
+    return footnotes.join('\n');
   }
 
   private addPrefix(text: string) {
